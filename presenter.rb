@@ -1,9 +1,14 @@
+# require_relative "clivia_generator"
 module Presenter
   def print_welcome
-    # print the welcome message
+    ["###################################",
+      "#   Welcome to Clivia Generator   #",
+      "###################################"
+    ].join("\n")
   end
 
   def print_score(score)
-    # print the score message
+    puts "Well done! Your score is #{score}"
   end
+
 end

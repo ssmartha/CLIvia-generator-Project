@@ -59,13 +59,10 @@ class CliviaGenerator
     score=@user_score*10
     data=will_save?(score)
     save(data) if data!=""
-    p @filename
   end
   
   def save(data)
-    # @@scores_data=data
     @@store_scores.push(data)
-    p @@store_scores
     File.open(@filename,"w+") do |file|
       file.write(@@store_scores.to_json)
     end
@@ -73,7 +70,7 @@ class CliviaGenerator
   end
 
   def parse_scores
-    scores_array=JSON.parse(File.read(@filename,headers:true))
+    scores_array=JSON.parse(File.read(@filename), symbolize_names: true)
     scores_array
     # get the scores data from file
   end
@@ -83,17 +80,12 @@ class CliviaGenerator
     table = Terminal::Table.new
     table.title= "Top Scores"
     table.headings=["Name","Score"]
-    table.rows=["1","2"]
-    # table.rows = @@store_scores.map do |score|
-    #   [score[:name],score[:name]]
-    # end
+    sorted_scores=@@store_scores.sort_by { |score| -score[:score]}
+    table.rows = sorted_scores.map do |score|
+      [score[:name],score[:score]]
+    end
     puts table
-    # print the scores sorted from top to bottom
   end
-
-
-
-
 
   def load_questions
     response = HTTParty.get("https://opentdb.com/api.php?amount=10")

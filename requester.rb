@@ -35,6 +35,7 @@ module Requester
       user_name= name == ""? "Anonymous": name
       data = {name: user_name, score: score}
     end
+    data
     # show user's score
     # ask the user to save the score
     # grab user input
